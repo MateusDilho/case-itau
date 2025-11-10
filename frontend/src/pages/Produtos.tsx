@@ -43,7 +43,7 @@ export default function Produtos() {
             </button>
           </div>
 
-          {/* Linha de produtos */}
+          {/* Grid de produtos */}
           <div className="flex gap-8">
             {produtos.map((nome, index) => (
               <div
