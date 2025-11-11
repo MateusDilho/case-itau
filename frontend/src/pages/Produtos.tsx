@@ -23,7 +23,7 @@ export default function Produtos() {
 
         {/* Menu lateral */}
         <nav className="flex flex-col gap-5 text-sm font-medium">
-          <a href="#" className="flex items-center gap-2 hover:text-orange-300">
+          <a href="/produtos" className="flex items-center gap-2 hover:text-orange-300">
             <img src={homeIcon} alt="Home" className="w-4 h-4" />
             Home
           </a>

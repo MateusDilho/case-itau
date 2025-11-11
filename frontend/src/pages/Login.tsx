@@ -1,52 +1,50 @@
 import { useState } from "react";
 import Banner from "../assets/Banner.png";
+import { supabase } from "../lib/supabaseClient";
+import { Eye, EyeOff } from "lucide-react";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
   const [mensagem, setMensagem] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMensagem("");
-
-    try {
-      const response = await fetch("http://localhost:8080/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          password: senha,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMensagem(data.message || "Erro ao fazer login.");
-        setLoading(false);
-        return;
-      }
-
-      // Guarda o token no localStorage
-      localStorage.setItem("token", data.token);
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
 
-      setMensagem(data.message);
-      setEmail("");
-      setSenha("");
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setMensagem("");
 
-      // Redirecionamento após login
-      window.location.href = "/produtos";
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: senha,
+    });
 
-    } catch (error) {
-      setMensagem("Erro de conexão com o servidor.");
-    } finally {
+    if (error) {
+      setMensagem("Credenciais inválidas. Verifique e tente novamente.");
       setLoading(false);
+      return;
     }
-  };
+
+    // Guarda o token JWT no localStorage
+    localStorage.setItem("token", data.session?.access_token || "");
+
+    setMensagem("Login realizado com sucesso!");
+    setEmail("");
+    setSenha("");
+
+    // Redirecionamento após login
+    window.location.href = "/produtos";
+  } catch (error) {
+    setMensagem("Erro de conexão com o Supabase.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="flex min-h-screen">
@@ -70,7 +68,7 @@ export default function Login() {
           </div>
 
           {/* Título */}
-          <h1 className="text-3xl sm:text-4xl lg:text-4.5xl font-medium text-gray-900 mb-12 sm:mb-16 lg:mb-20">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-15 sm:mb-20 lg:mb-40">
             Faça seu login
           </h1>
 
@@ -99,20 +97,27 @@ export default function Login() {
             </div>
 
             {/* Senha */}
-            <div className="mb-6 sm:mb-8">
+            <div className="mb-6 sm:mb-8 relative">
               <input
-                type="password"
+                type={mostrarSenha ? "text" : "password"}
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
                 className="w-full border-b border-gray-300 py-2 focus:outline-none focus:border-orange-500"
                 placeholder="Senha"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setMostrarSenha(!mostrarSenha)}
+                className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
+              >
+                {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
 
             {/* Link esqueci senha */}
             <div className="mb-8">
-              <a href="#" className="text-sm sm:text-base text-blue-700 hover:underline inline-block">
+              <a href="/reset-senha" className="text-sm sm:text-base text-blue-700 hover:underline inline-block">
                 Esqueci minha senha
               </a>
             </div>
@@ -121,9 +126,9 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !email || !senha}
                 className={`w-full sm:w-1/3 py-3 rounded-md font-semibold transition-all duration-200 ${
-                  loading
+                  loading || !email || !senha
                     ? "bg-[#CFD1D3] text-[#999999] cursor-not-allowed"
                     : "bg-orange-500 text-white hover:bg-orange-600"
                 }`}>
@@ -149,7 +154,7 @@ export default function Login() {
         {/* Rodapé */}
         <footer className="text-xs sm:text-sm text-gray-500 text-center mt-auto">
           2023 - Itaú Private Bank. All rights reserved.{" "}
-          <a href="#" className="hover:underline">
+          <a href="" className="hover:underline">
             Privacy Policy
           </a>
         </footer>
