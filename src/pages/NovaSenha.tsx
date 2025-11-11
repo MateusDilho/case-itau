@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Banner from "../assets/Banner.png";
 import { supabase } from "../lib/supabaseClient";
 import { Eye, EyeOff } from "lucide-react";
@@ -11,6 +11,20 @@ export default function NovaSenha() {
   const [mostrarNovaSenha, setMostrarNovaSenha] = useState(false);
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
+  // Inicializa sessão se houver access_token no hash da URL
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const params = new URLSearchParams(hash.replace("#", "?"));
+      const access_token = params.get("access_token");
+      const refresh_token = params.get("refresh_token");
+
+      if (access_token && refresh_token) {
+        supabase.auth.setSession({ access_token, refresh_token });
+      }
+    }
+  }, []);
+
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setMensagem("");
@@ -22,12 +36,11 @@ export default function NovaSenha() {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.updateUser({
-      password: novaSenha,
-    });
+    // Atualiza a senha do usuário logado ou via token de reset
+    const { error } = await supabase.auth.updateUser({ password: novaSenha });
 
     if (error) {
-      setMensagem("Erro ao redefinir senha.");
+      setMensagem("Erro ao redefinir senha: " + error.message);
     } else {
       setMensagem("Senha redefinida com sucesso! Você já pode fazer login.");
       setNovaSenha("");
