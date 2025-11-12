@@ -38,7 +38,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     // Redirecionamento após login
     window.location.href = "/produtos";
-  } catch (error) {
+  } catch {
     setMensagem("Erro de conexão com o Supabase.");
   } finally {
     setLoading(false);
