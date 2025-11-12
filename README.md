@@ -38,5 +38,10 @@ O projeto é bem simples e direto, com algumas telas principais:
 - **Produtos:** Depois de logar, o usuário vê todos os produtos que já cadastrou e pode adicionar novos
   <img width="1914" height="968" alt="image" src="https://github.com/user-attachments/assets/5d87d222-37fe-495d-bffa-849e92e5f9ff" />
 
-  ## Diagrama do Banco de Dados
-  <img width="1316" height="503" alt="image" src="https://github.com/user-attachments/assets/06143ddf-ac19-4da4-9721-e32239e6fd5e" />
+#### Observação sobre o `.env`
+Pra facilitar o teste do projeto, o arquivo `.env` foi mantido no repositório
+
+## Diagrama do Banco de Dados
+<img width="1316" height="503" alt="image" src="https://github.com/user-attachments/assets/06143ddf-ac19-4da4-9721-e32239e6fd5e" />
+
+ 
