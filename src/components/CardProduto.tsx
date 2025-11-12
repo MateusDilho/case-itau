@@ -16,7 +16,7 @@ export default function CardProduto({ produto }: CardProdutoProps) {
   return (
     <div
       key={produto.id}
-      className="relative w-40 h-40 bg-[#121921] hover:bg-[#1A222C] transition-all rounded-xl flex items-center justify-center shadow-lg overflow-hidden"
+      className="relative w-40 h-40 bg-[#151D26] hover:bg-[#1A222C] transition-all rounded-xl flex items-center justify-center shadow-lg overflow-hidden"
     >
       <div className="w-40 h-40 flex items-center justify-center">
         <img

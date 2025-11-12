@@ -105,7 +105,7 @@ export default function Produtos() {
       </aside>
 
       {/* Conteúdo principal */}
-      <main className="flex-1 flex flex-col items-start p-12 bg-gradient-to-b from-[#121314] to-[#0C0C0C]">
+      <main className="flex-1 flex flex-col items-start p-12 bg-[#171A1A]">
         <div className="w-[60%] flex flex-col items-start">
           <div className="flex justify-between items-center w-full mb-10">
             <h2 className="text-lg font-semibold text-gray-200">
