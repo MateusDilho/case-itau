@@ -68,7 +68,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           </div>
 
           {/* Título */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 mb-15 sm:mb-20 lg:mb-40">
+          <h1 className="text-3xl sm:text-4xl lg:text-4xl font-medium text-gray-900 mb-15 sm:mb-20 lg:mb-20">
             Faça seu login
           </h1>
 
